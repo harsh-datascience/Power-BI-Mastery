@@ -218,12 +218,15 @@
   }
   .content-area pre {
     @apply my-6 overflow-x-auto rounded-lg border border-code-border bg-code-bg p-5 text-sm;
+    max-width: 100%;
   }
   .content-area pre code {
     @apply bg-transparent p-0 text-foreground/90 font-mono text-sm;
+    white-space: pre;
   }
   .content-area :not(pre) > code {
     @apply rounded bg-muted px-1.5 py-0.5 text-sm font-mono font-medium text-primary;
+    word-break: break-word;
   }
   .content-area hr {
     @apply my-8 border-border;

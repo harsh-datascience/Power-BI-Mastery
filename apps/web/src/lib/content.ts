@@ -143,13 +143,38 @@ export function getAllDocMeta(): DocMeta[] {
   return docs
 }
 
+/**
+ * Remove the first top-level `# Heading` from the markdown body.
+ *
+ * The page shell already renders the document title in DocMetaHeader,
+ * so leaving the source H1 in place renders the title twice. We only
+ * strip a leading H1 that appears before any other content.
+ */
+function stripLeadingH1(markdown: string): string {
+  const lines = markdown.split('\n')
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i]!.trim()
+    if (line === '') continue
+    if (/^#\s+\S/.test(line)) {
+      // Drop this line and any blank lines immediately after it
+      let j = i + 1
+      while (j < lines.length && lines[j]!.trim() === '') j++
+      return [...lines.slice(0, i), ...lines.slice(j)].join('\n')
+    }
+    // First non-empty line is not an H1, leave the content untouched
+    return markdown
+  }
+  return markdown
+}
+
 export function getDocContent(slug: string): DocContent | null {
   const all = getAllDocMeta()
   const meta = all.find((d) => d.slug === slug)
   if (!meta) return null
 
   const raw = fs.readFileSync(meta.filePath, 'utf-8')
-  const { content } = safeMatter(raw)
+  const { content: rawContent } = safeMatter(raw)
+  const content = stripLeadingH1(rawContent)
   const headings = extractHeadings(content)
 
   return { ...meta, content, headings }

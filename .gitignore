@@ -49,3 +49,4 @@ logs/
 *.pem
 .vercel
 .wrangler
+apps/web/ui-screenshots/  
