@@ -1,0 +1,54 @@
+{
+  "name": "power-bi-mastery",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Enterprise Premium Learning Portal for Power BI - DAX & M Language Mastery",
+  "author": "Power BI Mastery Team",
+  "license": "MIT",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "build:web": "turbo run build --filter=web",
+    "build:processor": "turbo run build --filter=docs-processor",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "test:watch": "turbo run test:watch",
+    "test:e2e": "turbo run test:e2e",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md,css,html}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,json,md,css,html}\"",
+    "db:generate": "turbo run db:generate --filter=database",
+    "db:push": "turbo run db:push --filter=database",
+    "db:migrate": "turbo run db:migrate --filter=database",
+    "db:studio": "turbo run db:studio --filter=database",
+    "content:process": "turbo run process --filter=docs-processor",
+    "content:validate": "turbo run validate --filter=docs-processor",
+    "docker:build": "docker compose -f docker/docker-compose.yml build",
+    "docker:up": "docker compose -f docker/docker-compose.yml up -d",
+    "docker:down": "docker compose -f docker/docker-compose.yml down",
+    "clean": "turbo run clean && rm -rf node_modules .turbo",
+    "prepare": "husky install",
+    "changeset": "changeset",
+    "version": "changeset version && pnpm install",
+    "release": "changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.1",
+    "@types/node": "^20.11.0",
+    "eslint": "^8.56.0",
+    "husky": "^9.0.11",
+    "prettier": "^3.2.5",
+    "turbo": "^1.12.4",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=8.15.0"
+  },
+  "packageManager": "pnpm@8.15.4"
+}

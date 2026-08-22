@@ -1,0 +1,307 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Google Fonts (self-hosted fallback via next/font) ── */
+@layer base {
+  :root {
+    /* Light mode tokens */
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 36 85% 49%;          /* brand gold */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 222 60% 48%;       /* navy blue */
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 210 20% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 36 85% 49%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 36 85% 49%;
+
+    --radius: 0.625rem;
+
+    /* Sidebar */
+    --sidebar-width: 280px;
+    --sidebar-width-collapsed: 64px;
+
+    /* Code */
+    --code-bg: 210 20% 96%;
+    --code-border: 214 32% 91%;
+  }
+
+  .dark {
+    --background: 222 47% 7%;
+    --foreground: 213 31% 91%;
+
+    --card: 222 40% 10%;
+    --card-foreground: 213 31% 91%;
+
+    --popover: 222 40% 10%;
+    --popover-foreground: 213 31% 91%;
+
+    --primary: 36 85% 55%;
+    --primary-foreground: 222 47% 7%;
+
+    --secondary: 222 55% 60%;
+    --secondary-foreground: 222 47% 7%;
+
+    --muted: 222 40% 14%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 36 75% 50%;
+    --accent-foreground: 222 47% 7%;
+
+    --destructive: 0 63% 55%;
+    --destructive-foreground: 213 31% 91%;
+
+    --border: 222 40% 18%;
+    --input: 222 40% 18%;
+    --ring: 36 85% 55%;
+
+    --code-bg: 222 40% 12%;
+    --code-border: 222 40% 20%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-1.5 h-1.5;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-border hover:bg-muted-foreground/40;
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-primary/20 text-foreground;
+  }
+
+  /* Focus outline */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* Code blocks global */
+  pre {
+    @apply overflow-x-auto rounded-lg border border-border text-sm;
+  }
+
+  code {
+    @apply font-mono;
+  }
+
+  /* Inline code */
+  :not(pre) > code {
+    @apply rounded bg-muted px-1.5 py-0.5 text-sm font-medium text-primary;
+  }
+
+  /* Heading anchors */
+  h1, h2, h3, h4, h5, h6 {
+    @apply scroll-mt-20;
+  }
+}
+
+/* ── Layout utilities ── */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-500 via-brand-400 to-amber-400;
+  }
+
+  .gradient-text-navy {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-navy-600 via-navy-500 to-navy-400;
+  }
+
+  .glass {
+    @apply bg-white/70 dark:bg-navy-950/70 backdrop-blur-md border border-white/20 dark:border-white/5;
+  }
+
+  .glass-card {
+    @apply rounded-xl bg-card/80 backdrop-blur-sm border border-border/60 shadow-card-hover;
+  }
+
+  .premium-border {
+    @apply border border-brand-500/20 shadow-card-premium;
+  }
+
+  /* Prose content area */
+  .content-area {
+    @apply prose prose-slate dark:prose-invert max-w-none;
+  }
+
+  /* Sidebar nav item */
+  .nav-item {
+    @apply flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-colors
+           text-muted-foreground hover:bg-muted hover:text-foreground;
+  }
+
+  .nav-item-active {
+    @apply bg-primary/10 text-primary;
+  }
+
+  /* Shimmer loading */
+  .shimmer {
+    @apply animate-shimmer bg-gradient-to-r from-transparent via-white/10 to-transparent bg-[length:200%_100%];
+  }
+
+  /* Code block enhancements */
+  .code-block-wrapper {
+    @apply relative rounded-lg border border-code-border overflow-hidden;
+  }
+
+  .code-block-header {
+    @apply flex items-center justify-between px-4 py-2.5 border-b border-code-border bg-code-bg text-xs font-medium text-muted-foreground;
+  }
+}
+
+/* ── Shiki code highlighting ── */
+.shiki {
+  @apply text-sm leading-relaxed;
+}
+
+.shiki code {
+  @apply grid;
+  counter-reset: line;
+}
+
+.line {
+  @apply px-4 py-0.5;
+  counter-increment: line;
+}
+
+.line.highlighted {
+  @apply bg-primary/10 border-l-2 border-primary;
+}
+
+.line::before {
+  content: counter(line);
+  @apply inline-block w-6 mr-4 text-right text-muted-foreground/40 text-xs select-none;
+}
+
+/* ── Animated gradient background ── */
+.animated-bg {
+  background: linear-gradient(
+    -45deg,
+    hsl(var(--background)),
+    hsl(222 47% 9%),
+    hsl(36 60% 8%),
+    hsl(var(--background))
+  );
+  background-size: 400% 400%;
+  animation: gradient-shift 15s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── Search overlay ── */
+[cmdk-overlay] {
+  @apply fixed inset-0 z-50 bg-black/50 backdrop-blur-sm;
+}
+
+[cmdk-dialog] {
+  @apply fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 w-full max-w-xl;
+}
+
+/* ── Table of contents scroll spy ── */
+.toc-item.active > a {
+  @apply text-primary font-medium;
+}
+
+/* ── Reading progress bar ── */
+.reading-progress {
+  @apply fixed top-0 left-0 z-50 h-0.5 bg-gradient-to-r from-brand-500 to-brand-300;
+  transition: width 0.1s ease-out;
+}
+
+/* ── Doc page layout ── */
+.doc-layout {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr 240px;
+  gap: 0;
+  min-height: 100dvh;
+}
+
+@media (max-width: 1280px) {
+  .doc-layout {
+    grid-template-columns: var(--sidebar-width) 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .doc-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Premium badge ── */
+.badge-premium {
+  @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold
+         bg-gradient-to-r from-brand-500/20 to-amber-400/20 text-brand-600 dark:text-brand-400
+         border border-brand-500/30;
+}
+
+/* ── Card hover effect ── */
+.card-hover {
+  @apply transition-all duration-300 hover:-translate-y-0.5 hover:shadow-card-hover;
+}
+
+/* ── Hero glow ── */
+.hero-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.hero-glow-gold {
+  background: radial-gradient(circle, theme('colors.brand.400'), transparent);
+}
+
+.hero-glow-navy {
+  background: radial-gradient(circle, theme('colors.navy.400'), transparent);
+}

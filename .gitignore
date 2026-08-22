@@ -1,10 +1,51 @@
-log/
-obj/
-_site/
-.optemp/
-_themes*/
-_repo.*/
+# Dependencies
+node_modules/
+.pnpm-store/
 
-.openpublishing.buildcore.ps1
+# Build outputs
+.next/
+dist/
+build/
+out/
+.turbo/
+*.tsbuildinfo
 
-**/.vscode/settings.json
+# Generated content
+apps/web/src/content/generated/
+apps/web/public/content/
+
+# Environment
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Testing
+coverage/
+test-results/
+playwright-report/
+.playwright/
+
+# Prisma
+prisma/migrations/
+*.db
+*.db-journal
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+
+# IDE
+.idea/
+*.sublime-workspace
+
+# Logs
+logs/
+*.log
+
+# Misc
+*.pem
+.vercel
+.wrangler
