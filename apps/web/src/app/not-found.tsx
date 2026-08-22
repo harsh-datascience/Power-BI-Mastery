@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { SiteHeader } from '@/components/layout/site-header'
 import { SiteFooter } from '@/components/layout/site-footer'
-import { BookOpen, Home, ArrowRight } from 'lucide-react'
+import { BookOpen, Home } from 'lucide-react'
 
 export default function NotFound() {
   return (

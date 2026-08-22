@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { SiteHeader } from '@/components/layout/site-header'
 import { SiteFooter } from '@/components/layout/site-footer'
-import { ArrowRight, Clock, BookOpen, Trophy, ChevronRight } from 'lucide-react'
+import { Clock, BookOpen, Trophy, ChevronRight } from 'lucide-react'
 
 const PATHS = [
   {

@@ -1,5 +1,4 @@
 import { cn } from '@/lib/utils'
-import { Copy, Check } from 'lucide-react'
 
 // Shared MDX component overrides for premium styling
 export const mdxComponents = {

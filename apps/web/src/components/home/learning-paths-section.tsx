@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ArrowRight, Clock, BookOpen, Zap, ChevronRight } from 'lucide-react'
+import { ArrowRight, Clock, BookOpen, ChevronRight } from 'lucide-react'
 
 const PATHS = [
   {

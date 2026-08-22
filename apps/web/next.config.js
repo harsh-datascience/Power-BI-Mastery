@@ -80,6 +80,9 @@ const nextConfig = {
   // Output for Docker deployment
   output: process.env.DOCKER_BUILD === 'true' ? 'standalone' : undefined,
 
+  // Static generation needs more time for 800+ doc pages
+  staticPageGenerationTimeout: 300,
+
   // Experimental features
   experimental: {
     serverComponentsExternalPackages: ['@prisma/client', 'prisma', 'shiki'],

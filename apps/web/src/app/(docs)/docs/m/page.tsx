@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { getDocByCategory } from '@/lib/content'
-import { Clock, ArrowRight, RotateCcw } from 'lucide-react'
+import { ArrowRight, RotateCcw } from 'lucide-react'
 
 export default function MDocsIndexPage() {
   const docs = getDocByCategory('m')

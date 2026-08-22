@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { ChevronRight, Search, Zap, RotateCcw, BookOpen, X } from 'lucide-react'
+import { ChevronRight, Search, BookOpen, X } from 'lucide-react'
 
 // Navigation tree built from the actual folder contents
 const NAV_TREE = [

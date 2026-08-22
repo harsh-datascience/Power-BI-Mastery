@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ArrowRight, Zap, BookOpen, Play } from 'lucide-react'
+import { ArrowRight, Zap, BookOpen } from 'lucide-react'
 
 export function CtaSection() {
   return (

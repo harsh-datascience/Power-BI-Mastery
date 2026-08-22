@@ -167,6 +167,74 @@
     @apply prose prose-slate dark:prose-invert max-w-none;
   }
 
+  /* ── Rendered markdown HTML (from unified pipeline) ── */
+  .content-area h1 {
+    @apply font-display text-4xl font-bold tracking-tight mt-0 mb-6 scroll-mt-20;
+  }
+  .content-area h2 {
+    @apply font-display text-2xl font-bold tracking-tight mt-12 mb-4 scroll-mt-20 pb-2 border-b border-border;
+  }
+  .content-area h3 {
+    @apply font-semibold text-xl mt-8 mb-3 scroll-mt-20;
+  }
+  .content-area h4 {
+    @apply font-semibold text-base mt-6 mb-2;
+  }
+  .content-area p {
+    @apply leading-7 text-muted-foreground mb-4;
+  }
+  .content-area ul {
+    @apply my-4 ml-6 list-disc space-y-2 text-muted-foreground;
+  }
+  .content-area ol {
+    @apply my-4 ml-6 list-decimal space-y-2 text-muted-foreground;
+  }
+  .content-area li {
+    @apply leading-7;
+  }
+  .content-area a {
+    @apply font-medium text-primary underline underline-offset-4 hover:text-primary/80 transition-colors;
+  }
+  .content-area blockquote {
+    @apply my-6 rounded-r-lg border-l-4 border-primary/50 bg-primary/5 px-5 py-4 italic text-muted-foreground not-italic;
+  }
+  .content-area table {
+    @apply my-6 w-full text-sm border border-border rounded-lg overflow-hidden block overflow-x-auto;
+  }
+  .content-area thead {
+    @apply bg-muted/60;
+  }
+  .content-area th {
+    @apply px-4 py-3 text-left font-semibold text-foreground border-b border-border;
+  }
+  .content-area td {
+    @apply px-4 py-3 text-muted-foreground border-b border-border;
+  }
+  .content-area tr:last-child td {
+    @apply border-0;
+  }
+  .content-area tr:hover {
+    @apply bg-muted/30;
+  }
+  .content-area pre {
+    @apply my-6 overflow-x-auto rounded-lg border border-code-border bg-code-bg p-5 text-sm;
+  }
+  .content-area pre code {
+    @apply bg-transparent p-0 text-foreground/90 font-mono text-sm;
+  }
+  .content-area :not(pre) > code {
+    @apply rounded bg-muted px-1.5 py-0.5 text-sm font-mono font-medium text-primary;
+  }
+  .content-area hr {
+    @apply my-8 border-border;
+  }
+  .content-area img {
+    @apply rounded-lg border border-border my-6 max-w-full h-auto;
+  }
+  .content-area strong {
+    @apply font-semibold text-foreground;
+  }
+
   /* Sidebar nav item */
   .nav-item {
     @apply flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-colors

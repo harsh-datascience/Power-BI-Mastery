@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { Zap, Github, Twitter, Linkedin, Youtube, Mail } from 'lucide-react'
+import { Zap, Github, Twitter, Linkedin, Youtube } from 'lucide-react'
+import { NewsletterForm } from './newsletter-form'
 
 const FOOTER_SECTIONS = [
   {
@@ -90,21 +91,7 @@ export function SiteFooter() {
           <div className="flex flex-col gap-3 max-w-sm">
             <p className="font-semibold text-sm">Get DAX &amp; M tips in your inbox</p>
             <p className="text-sm text-muted-foreground">Weekly snippets, patterns, and best practices.</p>
-            <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
-              <input
-                type="email"
-                placeholder="you@company.com"
-                className="flex-1 h-9 rounded-lg border border-border bg-background px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-                required
-              />
-              <button
-                type="submit"
-                className="h-9 rounded-lg bg-gradient-to-r from-brand-500 to-amber-400 px-4 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
-              >
-                Subscribe
-              </button>
-            </form>
-            <p className="text-xs text-muted-foreground">No spam. Unsubscribe anytime.</p>
+            <NewsletterForm />
           </div>
         </div>
 

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { ArrowRight, BookOpen, Code2, Play, Sparkles, ChevronRight, Star } from 'lucide-react'
+import { ArrowRight, BookOpen, Code2, Play, Sparkles, Star } from 'lucide-react'
 
 const BADGE_TEXT = 'Enterprise Learning Portal'
 const FLOATING_TAGS = ['CALCULATE', 'FILTER', 'Table.Group', 'List.Transform', 'SUMX', 'Text.Split']

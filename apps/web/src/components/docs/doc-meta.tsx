@@ -1,4 +1,4 @@
-import { Clock, BookOpen, Tag } from 'lucide-react'
+import { Clock } from 'lucide-react'
 import { CATEGORY_META, type Category } from '@/lib/utils'
 
 interface Props {

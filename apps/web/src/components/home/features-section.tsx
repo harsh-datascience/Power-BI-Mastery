@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import {
-  BookOpen, Code2, Search, Zap, Trophy, BookMarked,
+  BookOpen, Search, BookMarked,
   Layers, MonitorPlay, Brain, Shield, Gauge, Globe
 } from 'lucide-react'
 

@@ -4,10 +4,9 @@ import { ChevronRight, Home } from 'lucide-react'
 interface Props {
   category: 'dax' | 'm'
   subcategory: string
-  title: string
 }
 
-export function DocBreadcrumb({ category, subcategory, title }: Props) {
+export function DocBreadcrumb({ category, subcategory }: Props) {
   return (
     <nav className="flex items-center gap-1.5 text-xs text-muted-foreground mb-6">
       <Link href="/" className="hover:text-foreground transition-colors"><Home className="h-3 w-3" /></Link>

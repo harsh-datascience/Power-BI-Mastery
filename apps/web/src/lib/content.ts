@@ -24,6 +24,26 @@ function readingTime(text: string) {
   return Math.max(1, Math.ceil(text.split(/\s+/).length / 200))
 }
 
+/**
+ * Parse frontmatter defensively.
+ *
+ * Some Microsoft source docs contain malformed YAML (e.g. duplicate
+ * `ms.topic` keys in dax/includes/*.md), which makes gray-matter throw.
+ * When that happens we fall back to stripping the frontmatter block
+ * manually and returning empty metadata, so a single bad file cannot
+ * break the entire build.
+ */
+function safeMatter(raw: string): { data: Record<string, unknown>; content: string } {
+  try {
+    const parsed = matter(raw)
+    return { data: parsed.data as Record<string, unknown>, content: parsed.content }
+  } catch {
+    // Strip a leading --- ... --- block if present
+    const stripped = raw.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, '')
+    return { data: {}, content: stripped }
+  }
+}
+
 function extractHeadings(content: string) {
   const lines = content.split('\n')
   const headings: { id: string; text: string; level: number }[] = []
@@ -61,7 +81,7 @@ export function getAllDocMeta(): DocMeta[] {
       if (!file.endsWith('.md') || file === 'toc.yml' || file === 'docfx.json') continue
       const filePath = path.join(mDir, file)
       const raw = fs.readFileSync(filePath, 'utf-8')
-      const { data, content } = matter(raw)
+      const { data, content } = safeMatter(raw)
       const base = path.basename(file, '.md')
       const slug = `m/${base}` // e.g. "m/table-selectrows"
       docs.push({
@@ -83,7 +103,7 @@ export function getAllDocMeta(): DocMeta[] {
       if (!file.endsWith('.md')) continue
       const filePath = path.join(daxBpDir, file)
       const raw = fs.readFileSync(filePath, 'utf-8')
-      const { data, content } = matter(raw)
+      const { data, content } = safeMatter(raw)
       const base = path.basename(file, '.md')
       const slug = `dax/best-practices/${base}`
       docs.push({
@@ -105,7 +125,7 @@ export function getAllDocMeta(): DocMeta[] {
       if (!file.endsWith('.md')) continue
       const filePath = path.join(daxInclDir, file)
       const raw = fs.readFileSync(filePath, 'utf-8')
-      const { data, content } = matter(raw)
+      const { data, content } = safeMatter(raw)
       const base = path.basename(file, '.md')
       const slug = `dax/includes/${base}`
       docs.push({
@@ -129,7 +149,7 @@ export function getDocContent(slug: string): DocContent | null {
   if (!meta) return null
 
   const raw = fs.readFileSync(meta.filePath, 'utf-8')
-  const { content } = matter(raw)
+  const { content } = safeMatter(raw)
   const headings = extractHeadings(content)
 
   return { ...meta, content, headings }

@@ -1,12 +1,8 @@
 import { notFound } from 'next/navigation'
-import { MDXRemote } from 'next-mdx-remote/rsc'
-import remarkGfm from 'remark-gfm'
-import rehypeSlug from 'rehype-slug'
-import rehypeRaw from 'rehype-raw'
 import { getAllDocMeta, getDocContent } from '@/lib/content'
+import { renderMarkdown } from '@/lib/markdown'
 import { DocBreadcrumb } from '@/components/docs/doc-breadcrumb'
 import { DocMetaHeader } from '@/components/docs/doc-meta'
-import { mdxComponents } from '@/components/docs/mdx-components'
 import type { Metadata } from 'next'
 
 interface Props {
@@ -34,27 +30,21 @@ export default async function DocPage({ params }: Props) {
   const doc = getDocContent(slug)
   if (!doc) notFound()
 
+  const html = await renderMarkdown(doc.content)
+
   return (
     <article className="max-w-4xl">
-      <DocBreadcrumb category={doc.category} subcategory={doc.subcategory} title={doc.title} />
+      <DocBreadcrumb category={doc.category} subcategory={doc.subcategory} />
       <DocMetaHeader
         title={doc.title}
         description={doc.description}
         category={doc.category}
         readingTime={doc.readingTime}
       />
-      <div className="content-area mt-10">
-        <MDXRemote
-          source={doc.content}
-          components={mdxComponents}
-          options={{
-            mdxOptions: {
-              remarkPlugins: [remarkGfm],
-              rehypePlugins: [rehypeSlug, rehypeRaw],
-            },
-          }}
-        />
-      </div>
+      <div
+        className="content-area mt-10"
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
     </article>
   )
 }
