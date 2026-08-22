@@ -8,7 +8,7 @@ interface Props {
   readingTime: number
 }
 
-export function DocMeta({ title, description, category, readingTime }: Props) {
+export function DocMetaHeader({ title, description, category, readingTime }: Props) {
   const meta = CATEGORY_META[category]
   return (
     <div className="border-b border-border pb-8">

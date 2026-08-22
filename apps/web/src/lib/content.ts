@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 
+// ROOT resolves from apps/web/ → ../../query-languages
 const ROOT = path.join(process.cwd(), '..', '..', 'query-languages')
 
 export interface DocMeta {
@@ -43,7 +44,6 @@ function extractHeadings(content: string) {
 
 function inferTitle(slug: string, frontmatter: Record<string, unknown>): string {
   if (typeof frontmatter['title'] === 'string') return frontmatter['title']
-  // Convert file slug to title: "table-selectrows" => "Table.SelectRows"
   return slug
     .split('-')
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
@@ -51,26 +51,22 @@ function inferTitle(slug: string, frontmatter: Record<string, unknown>): string 
     .replace(/\.([a-z])/g, (_, c: string) => '.' + c.toUpperCase())
 }
 
-function slugFromFile(filePath: string, category: 'dax' | 'm', subDir?: string): string {
-  const base = path.basename(filePath, '.md')
-  return subDir ? `${category}/${subDir}/${base}` : `${category}/${base}`
-}
-
 export function getAllDocMeta(): DocMeta[] {
   const docs: DocMeta[] = []
 
-  // Process M docs
+  // Process M docs — slug = "m/table-selectrows" → URL /docs/m/table-selectrows
   const mDir = path.join(ROOT, 'm')
   if (fs.existsSync(mDir)) {
     for (const file of fs.readdirSync(mDir)) {
-      if (!file.endsWith('.md') || file === 'toc.yml') continue
+      if (!file.endsWith('.md') || file === 'toc.yml' || file === 'docfx.json') continue
       const filePath = path.join(mDir, file)
       const raw = fs.readFileSync(filePath, 'utf-8')
       const { data, content } = matter(raw)
-      const slug = path.basename(file, '.md')
+      const base = path.basename(file, '.md')
+      const slug = `m/${base}` // e.g. "m/table-selectrows"
       docs.push({
         slug,
-        title: inferTitle(slug, data),
+        title: inferTitle(base, data),
         description: typeof data['description'] === 'string' ? data['description'] : '',
         category: 'm',
         subcategory: 'functions',
@@ -80,7 +76,7 @@ export function getAllDocMeta(): DocMeta[] {
     }
   }
 
-  // Process DAX best-practices docs
+  // Process DAX best-practices docs — slug = "dax/best-practices/dax-variables"
   const daxBpDir = path.join(ROOT, 'dax', 'best-practices')
   if (fs.existsSync(daxBpDir)) {
     for (const file of fs.readdirSync(daxBpDir)) {
@@ -88,13 +84,36 @@ export function getAllDocMeta(): DocMeta[] {
       const filePath = path.join(daxBpDir, file)
       const raw = fs.readFileSync(filePath, 'utf-8')
       const { data, content } = matter(raw)
-      const slug = path.basename(file, '.md')
+      const base = path.basename(file, '.md')
+      const slug = `dax/best-practices/${base}`
       docs.push({
         slug,
-        title: inferTitle(slug, data),
+        title: inferTitle(base, data),
         description: typeof data['description'] === 'string' ? data['description'] : '',
         category: 'dax',
         subcategory: 'best-practices',
+        filePath,
+        readingTime: readingTime(content),
+      })
+    }
+  }
+
+  // Process DAX includes docs
+  const daxInclDir = path.join(ROOT, 'dax', 'includes')
+  if (fs.existsSync(daxInclDir)) {
+    for (const file of fs.readdirSync(daxInclDir)) {
+      if (!file.endsWith('.md')) continue
+      const filePath = path.join(daxInclDir, file)
+      const raw = fs.readFileSync(filePath, 'utf-8')
+      const { data, content } = matter(raw)
+      const base = path.basename(file, '.md')
+      const slug = `dax/includes/${base}`
+      docs.push({
+        slug,
+        title: inferTitle(base, data),
+        description: typeof data['description'] === 'string' ? data['description'] : '',
+        category: 'dax',
+        subcategory: 'includes',
         filePath,
         readingTime: readingTime(content),
       })

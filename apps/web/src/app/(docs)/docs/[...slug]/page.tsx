@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import { getAllDocMeta, getDocContent } from '@/lib/content'
 import { DocBreadcrumb } from '@/components/docs/doc-breadcrumb'
-import { DocMeta } from '@/components/docs/doc-meta'
+import { DocMetaHeader } from '@/components/docs/doc-meta'
 import { mdxComponents } from '@/components/docs/mdx-components'
 import type { Metadata } from 'next'
 
@@ -34,7 +34,7 @@ export default async function DocPage({ params }: Props) {
   return (
     <article className="max-w-4xl">
       <DocBreadcrumb category={doc.category} subcategory={doc.subcategory} title={doc.title} />
-      <DocMeta
+      <DocMetaHeader
         title={doc.title}
         description={doc.description}
         category={doc.category}
