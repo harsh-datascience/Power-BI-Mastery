@@ -5,6 +5,22 @@ const ROOT = path.join(__dirname, '.next', 'server', 'app')
 let pass = 0
 let fail = 0
 
+/**
+ * Strip <script> blocks before matching.
+ *
+ * Next.js embeds the React Server Component flight payload inside
+ * <script> tags. A naive regex over the whole file therefore passes
+ * even when the visible HTML is empty, because the text still appears
+ * in that payload. Mutation testing confirmed this was a real hole:
+ * a page with an empty body but a populated flight payload passed.
+ *
+ * Matching only the non-script HTML proves the page is genuinely
+ * server-rendered.
+ */
+function renderedHtml(raw) {
+  return raw.replace(/<script[\s\S]*?<\/script>/g, '')
+}
+
 function check(relPath, pattern, label) {
   const full = path.join(ROOT, relPath)
   if (!fs.existsSync(full)) {
@@ -12,12 +28,12 @@ function check(relPath, pattern, label) {
     fail++
     return
   }
-  const content = fs.readFileSync(full, 'utf-8')
+  const content = renderedHtml(fs.readFileSync(full, 'utf-8'))
   if (new RegExp(pattern).test(content)) {
     console.log(`PASS: ${label}`)
     pass++
   } else {
-    console.log(`FAIL: ${label} (pattern not found: ${pattern})`)
+    console.log(`FAIL: ${label} (pattern not found in rendered HTML: ${pattern})`)
     fail++
   }
 }

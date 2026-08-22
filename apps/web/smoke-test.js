@@ -21,6 +21,17 @@ const ROUTES = [
   { path: '/learn', expect: 307, contains: '', label: '/learn -> /learn/paths redirect' },
 ]
 
+/**
+ * Strip <script> blocks before substring matching.
+ *
+ * Next.js embeds the RSC flight payload in <script> tags, so a naive
+ * body.includes() passes even if the visible HTML never rendered.
+ * Matching only the non-script HTML proves real server-side rendering.
+ */
+function renderedHtml(raw) {
+  return raw.replace(/<script[\s\S]*?<\/script>/g, '')
+}
+
 function get(path) {
   return new Promise((resolve) => {
     http.get(BASE + path, (res) => {
@@ -41,7 +52,12 @@ function get(path) {
   for (const r of ROUTES) {
     const res = await get(r.path)
     const statusOk = res.status === r.expect
-    const bodyOk = res.body.includes(r.contains)
+
+    // JSON/XML/text endpoints have no script payload to strip, and the
+    // redirect case has no body to match.
+    const isHtml = res.body.includes('<!DOCTYPE html') || res.body.includes('<html')
+    const searchable = isHtml ? renderedHtml(res.body) : res.body
+    const bodyOk = r.contains === '' ? true : searchable.includes(r.contains)
 
     if (statusOk && bodyOk) {
       console.log(`PASS  ${String(res.status).padEnd(4)} ${r.path.padEnd(42)} ${r.label}`)
