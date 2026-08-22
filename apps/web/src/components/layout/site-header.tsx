@@ -5,8 +5,8 @@ import { useState, useEffect } from 'react'
 import { useTheme } from 'next-themes'
 import { cn } from '@/lib/utils'
 import {
-  BookOpen, Search, Menu, X, Sun, Moon, Monitor, Zap, 
-  ChevronDown, Github, Star
+  Search, Menu, X, Sun, Moon, Zap,
+  ChevronDown, Github
 } from 'lucide-react'
 
 const NAV_ITEMS = [

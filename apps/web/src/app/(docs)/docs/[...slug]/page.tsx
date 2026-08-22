@@ -1,5 +1,8 @@
 import { notFound } from 'next/navigation'
 import { MDXRemote } from 'next-mdx-remote/rsc'
+import remarkGfm from 'remark-gfm'
+import rehypeSlug from 'rehype-slug'
+import rehypeRaw from 'rehype-raw'
 import { getAllDocMeta, getDocContent } from '@/lib/content'
 import { DocBreadcrumb } from '@/components/docs/doc-breadcrumb'
 import { DocMetaHeader } from '@/components/docs/doc-meta'
@@ -41,7 +44,16 @@ export default async function DocPage({ params }: Props) {
         readingTime={doc.readingTime}
       />
       <div className="content-area mt-10">
-        <MDXRemote source={doc.content} components={mdxComponents} />
+        <MDXRemote
+          source={doc.content}
+          components={mdxComponents}
+          options={{
+            mdxOptions: {
+              remarkPlugins: [remarkGfm],
+              rehypePlugins: [rehypeSlug, rehypeRaw],
+            },
+          }}
+        />
       </div>
     </article>
   )

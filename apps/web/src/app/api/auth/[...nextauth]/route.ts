@@ -3,6 +3,11 @@ import GitHub from 'next-auth/providers/github'
 import Google from 'next-auth/providers/google'
 import MicrosoftEntraID from 'next-auth/providers/microsoft-entra-id'
 
+// NOTE: To enable DB persistence, install @auth/prisma-adapter and
+// import { PrismaAdapter } from '@auth/prisma-adapter'
+// import { db } from '@/lib/db'
+// then add: adapter: PrismaAdapter(db)
+
 const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     GitHub({
@@ -24,14 +29,22 @@ const { handlers, auth, signIn, signOut } = NextAuth({
     error: '/auth/error',
   },
   callbacks: {
-    authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user
-      const isOnDashboard = nextUrl.pathname.startsWith('/dashboard')
-      if (isOnDashboard) return isLoggedIn
+    authorized({ auth: session, request: { nextUrl } }) {
+      const isLoggedIn = !!session?.user
+      const isProtected = nextUrl.pathname.startsWith('/dashboard')
+      if (isProtected) return isLoggedIn
       return true
+    },
+    async session({ session, token }) {
+      if (session.user && token.sub) {
+        session.user.id = token.sub
+      }
+      return session
     },
   },
   session: { strategy: 'jwt' },
+  secret: process.env.NEXTAUTH_SECRET,
 })
 
 export const { GET, POST } = handlers
+export { auth, signIn, signOut }

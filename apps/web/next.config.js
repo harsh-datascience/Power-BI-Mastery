@@ -67,7 +67,6 @@ const nextConfig = {
   // Redirects
   async redirects() {
     return [
-      { source: '/docs', destination: '/docs/dax', permanent: false },
       { source: '/learn', destination: '/learn/paths', permanent: false },
     ]
   },
@@ -84,8 +83,6 @@ const nextConfig = {
   // Experimental features
   experimental: {
     serverComponentsExternalPackages: ['@prisma/client', 'prisma', 'shiki'],
-    optimizeCss: true,
-    turbotrace: {},
   },
 
   // Environment variables exposed to browser
