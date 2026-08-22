@@ -48,8 +48,8 @@ export default function DaxDocsIndexPage() {
         <h2 className="font-display text-2xl font-bold mb-3">Quick Links</h2>
         <div className="grid sm:grid-cols-2 gap-2">
           {[
-            { label: 'Start Learning DAX', href: '/learn/dax-fundamentals' },
-            { label: 'Advanced DAX Patterns', href: '/learn/advanced-dax' },
+            { label: 'Start Learning DAX', href: '/learn/paths' },
+            { label: 'Advanced DAX Patterns', href: '/learn/paths' },
             { label: 'DAX Playground', href: '/playground' },
           ].map((l) => (
             <Link key={l.href} href={l.href}

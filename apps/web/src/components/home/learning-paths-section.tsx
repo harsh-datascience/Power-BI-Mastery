@@ -17,7 +17,7 @@ const PATHS = [
     bg: 'from-brand-500/10 to-amber-400/5',
     border: 'border-brand-500/25',
     topics: ['Measures vs Columns', 'CALCULATE', 'FILTER', 'Time Intelligence'],
-    href: '/learn/dax-fundamentals',
+    href: '/learn/paths',
   },
   {
     id: 'dax-advanced',
@@ -31,7 +31,7 @@ const PATHS = [
     bg: 'from-orange-500/10 to-red-400/5',
     border: 'border-orange-500/25',
     topics: ['Row Context', 'SUMX/AVERAGEX', 'RANKX', 'Variables'],
-    href: '/learn/advanced-dax',
+    href: '/learn/paths',
   },
   {
     id: 'm-basics',
@@ -45,7 +45,7 @@ const PATHS = [
     bg: 'from-navy-600/10 to-navy-400/5',
     border: 'border-navy-500/25',
     topics: ['Let Expressions', 'Tables & Lists', 'Text Functions', 'Error Handling'],
-    href: '/learn/m-basics',
+    href: '/learn/paths',
   },
   {
     id: 'm-advanced',
@@ -59,7 +59,7 @@ const PATHS = [
     bg: 'from-indigo-500/10 to-purple-400/5',
     border: 'border-indigo-500/25',
     topics: ['Custom Functions', 'Query Folding', 'Connectors', 'M Type System'],
-    href: '/learn/advanced-m',
+    href: '/learn/paths',
   },
 ]
 

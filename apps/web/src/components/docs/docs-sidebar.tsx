@@ -17,10 +17,8 @@ const NAV_TREE = [
       {
         label: 'Overview',
         items: [
-          { label: 'DAX Overview', href: '/docs/dax/overview' },
-          { label: 'DAX Queries', href: '/docs/dax/queries' },
-          { label: 'DAX Copilot', href: '/docs/dax/copilot' },
-          { label: 'Sample Model', href: '/docs/dax/sample-model' },
+          { label: 'DAX Reference Home', href: '/docs/dax' },
+          { label: 'All Documentation', href: '/docs' },
         ],
       },
       {
@@ -40,18 +38,13 @@ const NAV_TREE = [
         ],
       },
       {
-        label: 'Function Categories',
+        label: 'Includes & Enums',
         items: [
-          { label: 'Aggregation', href: '/docs/dax/functions/aggregation' },
-          { label: 'Date & Time', href: '/docs/dax/functions/date-time' },
-          { label: 'Filter', href: '/docs/dax/functions/filter' },
-          { label: 'Information', href: '/docs/dax/functions/information' },
-          { label: 'Logical', href: '/docs/dax/functions/logical' },
-          { label: 'Math & Trig', href: '/docs/dax/functions/math-trig' },
-          { label: 'Statistical', href: '/docs/dax/functions/statistical' },
-          { label: 'Text', href: '/docs/dax/functions/text' },
-          { label: 'Time Intelligence', href: '/docs/dax/functions/time-intelligence' },
-          { label: 'Table manipulation', href: '/docs/dax/functions/table-manipulation' },
+          { label: 'Object State enum', href: '/docs/dax/includes/enum-objectstate' },
+          { label: 'Object Type enum', href: '/docs/dax/includes/enum-objecttype' },
+          { label: 'Sample model', href: '/docs/dax/includes/power-bi-dax-sample-model' },
+          { label: 'INFO function params', href: '/docs/dax/includes/parameters-for-info-dax-functions' },
+          { label: 'Unicode behavior', href: '/docs/dax/includes/function-unicodecharacterbehavior' },
         ],
       },
     ],

@@ -45,7 +45,10 @@ function safeMatter(raw: string): { data: Record<string, unknown>; content: stri
 }
 
 function extractHeadings(content: string) {
-  const lines = content.split('\n')
+  // Normalise CRLF first. Windows checkouts store these files with \r\n,
+  // and a trailing \r made the `$` anchor never match, so every doc
+  // silently reported zero headings.
+  const lines = content.replace(/\r\n/g, '\n').split('\n')
   const headings: { id: string; text: string; level: number }[] = []
   for (const line of lines) {
     const match = line.match(/^(#{1,4})\s+(.+)$/)
@@ -151,7 +154,9 @@ export function getAllDocMeta(): DocMeta[] {
  * strip a leading H1 that appears before any other content.
  */
 function stripLeadingH1(markdown: string): string {
-  const lines = markdown.split('\n')
+  // Normalise CRLF so the H1 detection works on Windows checkouts too.
+  const normalised = markdown.replace(/\r\n/g, '\n')
+  const lines = normalised.split('\n')
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i]!.trim()
     if (line === '') continue
@@ -162,9 +167,9 @@ function stripLeadingH1(markdown: string): string {
       return [...lines.slice(0, i), ...lines.slice(j)].join('\n')
     }
     // First non-empty line is not an H1, leave the content untouched
-    return markdown
+    return normalised
   }
-  return markdown
+  return normalised
 }
 
 export function getDocContent(slug: string): DocContent | null {

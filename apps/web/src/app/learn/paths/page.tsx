@@ -10,7 +10,7 @@ const PATHS = [
     description: 'Learn measures, calculated columns, filter context, and the most essential DAX functions used in every Power BI project.',
     color: 'from-brand-500 to-amber-400', border: 'border-brand-500/25', bg: 'from-brand-500/10 to-amber-400/5',
     topics: ['Measures vs Columns', 'Filter Context', 'CALCULATE', 'RELATED', 'Time Intelligence', 'DAX Variables'],
-    href: '/learn/dax-fundamentals',
+    href: '/docs/dax',
   },
   {
     id: 'dax-advanced', category: 'DAX', level: 'Advanced', hours: 14, modules: 18,
@@ -18,7 +18,7 @@ const PATHS = [
     description: 'Master evaluation context, iterators, ranking, semi-additive measures, DAX Studio, and enterprise performance patterns.',
     color: 'from-orange-500 to-red-400', border: 'border-orange-500/25', bg: 'from-orange-500/10 to-red-400/5',
     topics: ['Row Context', 'SUMX / AVERAGEX', 'RANKX', 'Many-to-many', 'DAX Studio', 'Performance'],
-    href: '/learn/advanced-dax',
+    href: '/docs/dax',
   },
   {
     id: 'm-basics', category: 'M', level: 'Beginner', hours: 10, modules: 14,
@@ -26,7 +26,7 @@ const PATHS = [
     description: 'Start with Power Query M from the ground up. Let expressions, data types, common transforms, and error handling.',
     color: 'from-navy-600 to-navy-400', border: 'border-navy-500/25', bg: 'from-navy-600/10 to-navy-400/5',
     topics: ['Let / In', 'Tables, Lists, Records', 'Text Functions', 'Date Functions', 'Error Handling', 'Connectors'],
-    href: '/learn/m-basics',
+    href: '/docs/m',
   },
   {
     id: 'm-advanced', category: 'M', level: 'Advanced', hours: 16, modules: 20,
@@ -34,7 +34,7 @@ const PATHS = [
     description: 'Custom functions, query folding, parameterized queries, M type system, custom connectors, and performance optimization.',
     color: 'from-indigo-500 to-purple-400', border: 'border-indigo-500/25', bg: 'from-indigo-500/10 to-purple-400/5',
     topics: ['Custom Functions', 'Query Folding', 'M Type System', 'Parameterized Queries', 'Web API', 'Custom Connectors'],
-    href: '/learn/advanced-m',
+    href: '/docs/m',
   },
   {
     id: 'dax-best-practices', category: 'DAX', level: 'Intermediate', hours: 4, modules: 11,

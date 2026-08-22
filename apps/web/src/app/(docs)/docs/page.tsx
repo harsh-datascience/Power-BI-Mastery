@@ -51,12 +51,12 @@ export default function DocsIndexPage() {
         <h3 className="font-semibold mb-2">Quick Links</h3>
         <div className="grid sm:grid-cols-2 gap-2">
           {[
-            { label: 'DAX Best Practices', href: '/docs/dax/best-practices' },
-            { label: 'CALCULATE Function', href: '/docs/dax/functions/calculate' },
-            { label: 'M Language Specification', href: '/docs/m/specification/introduction' },
-            { label: 'Table Functions Reference', href: '/docs/m/functions/table' },
-            { label: 'Time Intelligence Guide', href: '/docs/dax/functions/time-intelligence' },
-            { label: 'Data Connector Reference', href: '/docs/m/connectors/sql' },
+            { label: 'DAX Best Practices', href: '/docs/dax' },
+            { label: 'CALCULATE Function', href: '/docs/dax/best-practices/dax-variables' },
+            { label: 'M Language Specification', href: '/docs/m/m-spec-introduction' },
+            { label: 'Table Functions Reference', href: '/docs/m/table-functions' },
+            { label: 'Time Intelligence Guide', href: '/docs/dax' },
+            { label: 'Data Connector Reference', href: '/docs/m/sql-database' },
           ].map((link) => (
             <Link
               key={link.href}

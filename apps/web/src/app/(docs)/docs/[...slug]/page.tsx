@@ -30,7 +30,10 @@ export default async function DocPage({ params }: Props) {
   const doc = getDocContent(slug)
   if (!doc) notFound()
 
-  const html = await renderMarkdown(doc.content)
+  // Pass the set of slugs this portal serves so cross-doc links can be
+  // rewritten to our own routes, and Microsoft Learn links to absolute URLs.
+  const ownSlugs = new Set(getAllDocMeta().map((d) => d.slug))
+  const html = await renderMarkdown(doc.content, ownSlugs)
 
   return (
     <article className="max-w-4xl">

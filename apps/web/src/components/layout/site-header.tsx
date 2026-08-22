@@ -12,36 +12,35 @@ import {
 const NAV_ITEMS = [
   {
     label: 'Learn',
-    href: '/learn',
+    href: '/learn/paths',
     children: [
       { label: 'Learning Paths', href: '/learn/paths', description: 'Structured courses for all levels' },
-      { label: 'DAX Fundamentals', href: '/learn/dax-fundamentals', description: 'Start with DAX basics' },
-      { label: 'M Language Basics', href: '/learn/m-basics', description: 'Power Query fundamentals' },
-      { label: 'Advanced DAX', href: '/learn/advanced-dax', description: 'Master complex patterns' },
+      { label: 'DAX Fundamentals', href: '/learn/paths', description: 'Start with DAX basics' },
+      { label: 'M Language Basics', href: '/learn/paths', description: 'Power Query fundamentals' },
+      { label: 'Advanced DAX', href: '/learn/paths', description: 'Master complex patterns' },
     ],
   },
   {
     label: 'DAX Reference',
     href: '/docs/dax',
     children: [
-      { label: 'Function Reference', href: '/docs/dax/functions', description: '300+ DAX functions documented' },
-      { label: 'Best Practices', href: '/docs/dax/best-practices', description: 'Expert DAX patterns' },
-      { label: 'DAX Queries', href: '/docs/dax/queries', description: 'Query syntax & examples' },
-      { label: 'Calculations', href: '/docs/dax/calculations', description: 'Measures & columns' },
+      { label: 'Function Reference', href: '/docs/dax', description: '300+ DAX functions documented' },
+      { label: 'Best Practices', href: '/docs/dax', description: 'Expert DAX patterns' },
+      { label: 'DAX Queries', href: '/docs/dax', description: 'Query syntax & examples' },
+      { label: 'Calculations', href: '/docs/dax', description: 'Measures & columns' },
     ],
   },
   {
     label: 'M Reference',
     href: '/docs/m',
     children: [
-      { label: 'Function Reference', href: '/docs/m/functions', description: '500+ M functions documented' },
-      { label: 'Language Spec', href: '/docs/m/specification', description: 'Official M language spec' },
-      { label: 'Data Sources', href: '/docs/m/connectors', description: 'Connect to any data source' },
-      { label: 'Transformations', href: '/docs/m/transformations', description: 'Table, List, Record operations' },
+      { label: 'Function Reference', href: '/docs/m', description: '500+ M functions documented' },
+      { label: 'Language Spec', href: '/docs/m/m-spec-introduction', description: 'Official M language spec' },
+      { label: 'Data Sources', href: '/docs/m/sql-database', description: 'Connect to any data source' },
+      { label: 'Transformations', href: '/docs/m/table-functions', description: 'Table, List, Record operations' },
     ],
   },
   { label: 'Playground', href: '/playground' },
-  { label: 'Blog', href: '/blog' },
 ]
 
 export function SiteHeader() {
@@ -163,12 +162,12 @@ export function SiteHeader() {
           </a>
 
           {/* CTA */}
-          <Link
-            href="/learn"
-            className="hidden sm:inline-flex h-9 items-center justify-center rounded-lg bg-gradient-to-r from-brand-500 to-amber-400 px-4 text-sm font-semibold text-white shadow-glow-gold hover:shadow-glow-gold/70 transition-all hover:-translate-y-px"
-          >
-            Start Learning
-          </Link>
+              <Link
+                href="/learn/paths"
+                className="hidden sm:inline-flex h-9 items-center justify-center rounded-lg bg-gradient-to-r from-brand-500 to-amber-400 px-4 text-sm font-semibold text-white shadow-glow-gold hover:shadow-glow-gold/70 transition-all hover:-translate-y-px"
+              >
+                Start Learning
+              </Link>
 
           {/* Mobile menu button */}
           <button
@@ -197,7 +196,7 @@ export function SiteHeader() {
             ))}
             <div className="mt-4 pt-4 border-t border-border">
               <Link
-                href="/learn"
+                href="/learn/paths"
                 className="flex h-10 w-full items-center justify-center rounded-lg bg-gradient-to-r from-brand-500 to-amber-400 text-sm font-semibold text-white"
                 onClick={() => setMobileOpen(false)}
               >

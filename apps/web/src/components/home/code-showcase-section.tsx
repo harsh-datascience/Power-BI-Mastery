@@ -33,7 +33,7 @@ Sales PY =
         SAMEPERIODLASTYEAR ( 'Date'[Date] )
     )`,
     language: 'dax',
-    href: '/docs/dax/functions/calculate',
+    href: '/docs/dax/best-practices/dax-variables',
   },
   {
     id: 'table-transform',
@@ -92,7 +92,7 @@ Rolling 3M Avg =
         DATESINPERIOD( 'Date'[Date], LASTDATE( 'Date'[Date] ), -3, MONTH )
     )`,
     language: 'dax',
-    href: '/docs/dax/time-intelligence',
+    href: '/docs/dax',
   },
   {
     id: 'list-transform',
