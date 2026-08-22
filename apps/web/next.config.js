@@ -12,6 +12,7 @@ const nextConfig = {
 
   // Image optimization
   images: {
+    unoptimized: process.env.GITHUB_PAGES === 'true',
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       { protocol: 'https', hostname: 'avatars.githubusercontent.com' },
@@ -77,8 +78,12 @@ const nextConfig = {
     return config
   },
 
-  // Output for Docker deployment
-  output: process.env.DOCKER_BUILD === 'true' ? 'standalone' : undefined,
+  // Output strategy
+  output: process.env.GITHUB_PAGES === 'true'
+    ? 'export'
+    : process.env.DOCKER_BUILD === 'true'
+    ? 'standalone'
+    : undefined,
 
   // Static generation needs more time for 800+ doc pages
   staticPageGenerationTimeout: 300,
