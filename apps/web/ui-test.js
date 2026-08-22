@@ -22,11 +22,31 @@ function no(label, detail) {
 async function check(label, fn) {
   try {
     const result = await fn()
-    if (result === false) no(label)
-    else ok(label)
+    // Strict: only an explicit `true` counts as a pass. This prevents
+    // an assertion that accidentally returns undefined/null from
+    // silently reporting success.
+    if (result === true) ok(label)
+    else no(label, `assertion returned ${JSON.stringify(result)}`)
   } catch (e) {
     no(label, e.message.split('\n')[0])
   }
+}
+
+/**
+ * Assert that at least `min` elements matching `selectorOrText` are
+ * actually VISIBLE to a user, not merely present in the DOM.
+ *
+ * Mutation testing showed that `.count() > 0` passes even when the
+ * element is display:none, so it is not a real user-facing check.
+ */
+async function visibleCount(page, locator, min = 1) {
+  const els = await locator.all()
+  let n = 0
+  for (const el of els) {
+    if (await el.isVisible()) n++
+    if (n >= min) return true
+  }
+  return n >= min
 }
 
 ;(async () => {
@@ -43,25 +63,23 @@ async function check(label, fn) {
   await page.goto(BASE, { waitUntil: 'domcontentloaded' })
 
   await check('Hero headline visible', async () =>
-    await page.locator('h1').first().isVisible())
+    (await page.locator('h1').first().isVisible()) === true)
   await check('Hero headline contains "Master"', async () =>
     (await page.locator('h1').first().textContent()).includes('Master'))
   await check('Header logo visible', async () =>
     await page.locator('header a').first().isVisible())
   await check('CTA "Start Learning Free" present', async () =>
     await page.getByRole('link', { name: /Start Learning Free/i }).first().isVisible())
-  await check('Stats section renders 4 stats', async () =>
-    (await page.locator('text=/Active Learners|Functions Documented/').count()) > 0)
-  await check('Features section has 9 cards', async () => {
-    const n = await page.locator('text=/Complete Documentation|Live Code Playground/').count()
-    return n > 0
-  })
-  await check('Learning paths cards render', async () =>
-    (await page.locator('text=/DAX Fundamentals/').count()) > 0)
-  await check('Code showcase renders DAX', async () =>
-    (await page.locator('text=CALCULATE').count()) > 0)
-  await check('Testimonials render', async () =>
-    (await page.locator('text=/Sarah Chen|Loved by/').count()) > 0)
+  await check('Stats section renders visibly', async () =>
+    await visibleCount(page, page.locator('text=/Active Learners|Functions Documented/')))
+  await check('Features section cards visible', async () =>
+    await visibleCount(page, page.locator('text=/Complete Documentation|Live Code Playground/')))
+  await check('Learning paths cards visible', async () =>
+    await visibleCount(page, page.locator('text=/DAX Fundamentals/')))
+  await check('Code showcase renders DAX visibly', async () =>
+    await visibleCount(page, page.locator('text=CALCULATE')))
+  await check('Testimonials visible', async () =>
+    await visibleCount(page, page.locator('text=/Sarah Chen|Loved by/')))
   await check('Footer renders with links', async () =>
     await page.locator('footer').isVisible())
   await check('CSS actually applied (body has bg color)', async () => {
@@ -106,8 +124,8 @@ async function check(label, fn) {
   await check('Learn dropdown trigger exists', async () => await learnNav.isVisible())
   await learnNav.hover()
   await page.waitForTimeout(350)
-  await check('Dropdown opens on hover', async () =>
-    (await page.locator('text=Learning Paths').count()) > 0)
+  await check('Dropdown opens visibly on hover', async () =>
+    await visibleCount(page, page.locator('text=Learning Paths')))
   await page.screenshot({ path: path.join(SHOTS, '03-nav-dropdown.png') })
 
   // ─────────────────────────────────────────────
@@ -119,13 +137,13 @@ async function check(label, fn) {
   await check('Sidebar is visible', async () =>
     await page.locator('aside').first().isVisible())
   await check('Sidebar has DAX group', async () =>
-    (await page.locator('text=DAX Reference').count()) > 0)
+    await visibleCount(page, page.locator('text=DAX Reference')))
   await check('Sidebar has M group', async () =>
-    (await page.locator('aside >> text=M Language').count()) > 0)
+    await visibleCount(page, page.locator('aside >> text=M Language')))
   await check('Doc body content rendered', async () =>
-    (await page.locator('text=/Returns a table of rows/').count()) > 0)
+    await visibleCount(page, page.locator('text=/Returns a table of rows/')))
   await check('Code block rendered as <pre>', async () =>
-    (await page.locator('.content-area pre').count()) > 0)
+    await visibleCount(page, page.locator('.content-area pre')))
   await check('Code block has styling (bg color)', async () => {
     const bg = await page.evaluate(() => {
       const pre = document.querySelector('.content-area pre')
@@ -134,11 +152,11 @@ async function check(label, fn) {
     return bg !== '' && bg !== 'rgba(0, 0, 0, 0)'
   })
   await check('Headings have id anchors', async () =>
-    (await page.locator('.content-area h2[id]').count()) > 0)
+    await visibleCount(page, page.locator('.content-area h2[id]')))
   await check('Reading time badge shows', async () =>
-    (await page.locator('text=/min read/').count()) > 0)
+    await visibleCount(page, page.locator('text=/min read/')))
   await check('Breadcrumb renders', async () =>
-    (await page.locator('nav >> text=Docs').count()) > 0)
+    await visibleCount(page, page.locator('nav >> text=Docs')))
   await check('Title is NOT duplicated (only one h1)', async () =>
     (await page.locator('h1').count()) === 1)
   await check('Markdown body has no stray h1', async () =>
@@ -147,7 +165,7 @@ async function check(label, fn) {
 
   // TOC scroll-spy
   await check('TOC renders on wide viewport', async () =>
-    (await page.locator('text=On This Page').count()) > 0)
+    await visibleCount(page, page.locator('text=On This Page')))
 
   // Sidebar filter
   console.log('\n=== 5. DOCS SIDEBAR :: filter workflow ===')
@@ -176,7 +194,7 @@ async function check(label, fn) {
   console.log('\n=== 6. DOCS :: navigation click-through ===')
   await page.goto(`${BASE}/docs/m`, { waitUntil: 'domcontentloaded' })
   await check('M index page renders A-Z', async () =>
-    (await page.locator('text=M Language Reference').count()) > 0)
+    await visibleCount(page, page.locator('text=M Language Reference')))
   await check('M index has letter anchors', async () =>
     (await page.locator('a[href^="#letter-"]').count()) > 5)
   const firstDocLink = page.locator('a[href^="/docs/m/"]').first()
@@ -187,20 +205,20 @@ async function check(label, fn) {
   await check('Click-through navigates to a doc page', async () =>
     page.url().includes('/docs/m/'))
   await check('Navigated doc renders content', async () =>
-    (await page.locator('.content-area').count()) > 0)
+    await visibleCount(page, page.locator('.content-area')))
 
   // ─────────────────────────────────────────────
   console.log('\n=== 7. PLAYGROUND :: full interactive workflow ===')
   await page.goto(`${BASE}/playground`, { waitUntil: 'domcontentloaded' })
 
   await check('Playground title renders', async () =>
-    (await page.locator('h1', { hasText: 'Code Playground' }).count()) > 0)
+    await visibleCount(page, page.locator('h1', { hasText: 'Code Playground' })))
   const editor = page.locator('textarea')
   await check('Editor textarea present', async () => await editor.isVisible())
   await check('Editor pre-filled with DAX', async () =>
     (await editor.inputValue()).includes('CALCULATE'))
   await check('DAX quick reference sidebar shows', async () =>
-    (await page.locator('text=DAX Quick Reference').count()) > 0)
+    await visibleCount(page, page.locator('text=DAX Quick Reference')))
 
   // Template switching
   const tmplBtn = page.locator('button', { hasText: 'MoM Growth %' }).first()
@@ -220,7 +238,7 @@ async function check(label, fn) {
     return v.includes('let') || v.includes('Table.SelectRows')
   })
   await check('M quick reference sidebar appears', async () =>
-    (await page.locator('text=M Quick Reference').count()) > 0)
+    await visibleCount(page, page.locator('text=M Quick Reference')))
   await page.screenshot({ path: path.join(SHOTS, '05-playground-m.png') })
 
   // Run button
@@ -229,9 +247,9 @@ async function check(label, fn) {
   await runBtn.click()
   await page.waitForTimeout(1800)
   await check('Run produces output panel', async () =>
-    (await page.locator('text=Output').count()) > 0)
+    await visibleCount(page, page.locator('text=Output')))
   await check('Output contains result text', async () =>
-    (await page.locator('text=/evaluated successfully|executed successfully/').count()) > 0)
+    await visibleCount(page, page.locator('text=/evaluated successfully|executed successfully/')))
   await page.screenshot({ path: path.join(SHOTS, '06-playground-output.png') })
 
   // Editing
@@ -275,7 +293,7 @@ async function check(label, fn) {
       await p.locator('header button[aria-label="Toggle menu"]').click()
       await p.waitForTimeout(350)
       await check(`${vp.name}: mobile menu opens`, async () =>
-        (await p.locator('header nav a', { hasText: 'Playground' }).count()) > 0)
+        await visibleCount(p, p.locator('header nav a', { hasText: 'Playground' })))
     } else {
       await check(`${vp.name}: desktop nav visible`, async () =>
         (await p.locator('header nav').first().isVisible()))
@@ -308,7 +326,7 @@ async function check(label, fn) {
     const resp = await page.goto(BASE + ec.url, { waitUntil: 'domcontentloaded' })
     await check(`${ec.label} returns 200`, () => resp.status() === 200)
     await check(`${ec.label} renders content-area`, async () =>
-      (await page.locator('.content-area').count()) > 0)
+      await visibleCount(page, page.locator('.content-area')))
     await check(`${ec.label} no horizontal overflow`, async () => {
       const o = await page.evaluate(() =>
         document.documentElement.scrollWidth - document.documentElement.clientWidth)
@@ -320,7 +338,7 @@ async function check(label, fn) {
   await page.goto(`${BASE}/docs/m/m-spec-values`, { waitUntil: 'domcontentloaded' })
   await page.waitForTimeout(1500)
   await check('Long doc: TOC populated', async () =>
-    (await page.locator('text=On This Page').count()) > 0)
+    await visibleCount(page, page.locator('text=On This Page')))
   await page.evaluate(() => window.scrollBy(0, 1500))
   await page.waitForTimeout(600)
   await check('Long doc: scroll-spy marks an active TOC item', async () => {
@@ -338,7 +356,7 @@ async function check(label, fn) {
     return /not found/i.test(h1)
   })
   await check('404 page has working Home link', async () =>
-    (await page.getByRole('link', { name: /Go Home/i }).count()) > 0)
+    await visibleCount(page, page.getByRole('link', { name: /Go Home/i })))
   await page.screenshot({ path: path.join(SHOTS, '09-404.png') })
 
   // Newsletter form (the client component we extracted)
@@ -349,7 +367,7 @@ async function check(label, fn) {
   await page.locator('footer button[type="submit"]').click()
   await page.waitForTimeout(500)
   await check('Newsletter submit shows confirmation', async () =>
-    (await page.locator('footer >> text=/Thanks|inbox/i').count()) > 0)
+    await visibleCount(page, page.locator('footer >> text=/Thanks|inbox/i')))
 
   // Console errors
   console.log('\n=== 11. CONSOLE HEALTH ===')
