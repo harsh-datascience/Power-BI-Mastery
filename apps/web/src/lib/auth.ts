@@ -2,7 +2,19 @@ import NextAuth from 'next-auth'
 import type { NextRequest } from 'next/server'
 import GitHub from 'next-auth/providers/github'
 import Google from 'next-auth/providers/google'
-import AzureAD from 'next-auth/providers/azure-ad'
+import MicrosoftEntraID from 'next-auth/providers/microsoft-entra-id'
+
+/**
+ * Microsoft sign-in moved from the deprecated `azure-ad` provider to
+ * `microsoft-entra-id` in @auth/core v0.41. The tenant is no longer a
+ * separate `tenantId` option; it is encoded in the OIDC issuer URL.
+ * Defaults to `common`, which allows personal, school and work accounts.
+ *
+ * NOTE: the OAuth callback URL changed with this provider and must be
+ * updated in the Entra app registration:
+ *   /api/auth/callback/azure-ad -> /api/auth/callback/microsoft-entra-id
+ */
+const MICROSOFT_TENANT_ID = process.env.MICROSOFT_TENANT_ID ?? 'common'
 
 /**
  * NextAuth v5 configuration.
@@ -25,10 +37,10 @@ const nextAuth = NextAuth({
       clientId: process.env.GOOGLE_CLIENT_ID ?? '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
     }),
-    AzureAD({
+    MicrosoftEntraID({
       clientId: process.env.MICROSOFT_CLIENT_ID ?? '',
       clientSecret: process.env.MICROSOFT_CLIENT_SECRET ?? '',
-      tenantId: process.env.MICROSOFT_TENANT_ID ?? 'common',
+      issuer: `https://login.microsoftonline.com/${MICROSOFT_TENANT_ID}/v2.0`,
     }),
   ],
   pages: {
