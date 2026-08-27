@@ -5,6 +5,11 @@ export const dynamic = 'force-static'
 
 const BASE = process.env.NEXT_PUBLIC_APP_URL ?? 'https://powerbimastery.com'
 
+/**
+ * Only routes that this app actually builds belong here. `/blog` and
+ * `/about` were listed but have no page, so every crawl of the sitemap
+ * reported two soft 404s. Add entries back when the pages ship.
+ */
 const STATIC_ROUTES = [
   '/',
   '/docs',
@@ -12,8 +17,6 @@ const STATIC_ROUTES = [
   '/docs/m',
   '/learn/paths',
   '/playground',
-  '/blog',
-  '/about',
 ]
 
 export function GET() {

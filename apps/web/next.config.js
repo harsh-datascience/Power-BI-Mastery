@@ -90,7 +90,7 @@ const nextConfig = {
 
   // Experimental features
   experimental: {
-    serverComponentsExternalPackages: ['@prisma/client', 'prisma', 'shiki'],
+    serverComponentsExternalPackages: ['@prisma/client', 'prisma'],
   },
 
   // Environment variables exposed to browser
