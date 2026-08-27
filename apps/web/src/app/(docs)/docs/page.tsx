@@ -59,7 +59,8 @@ export default function DocsIndexPage() {
             { label: 'Data Connector Reference', href: '/docs/m/sql-database' },
           ].map((link) => (
             <Link
-              key={link.href}
+              // Two quick links point at /docs/dax, so href is not unique.
+              key={link.label}
               href={link.href}
               className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
             >

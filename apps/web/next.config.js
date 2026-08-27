@@ -41,13 +41,18 @@ const nextConfig = {
           },
           {
             key: 'Content-Security-Policy',
+            // @vercel/analytics and @vercel/speed-insights load their scripts
+            // from va.vercel-scripts.com and beacon back to vitals.vercel-
+            // insights.com. Those hosts were missing, so both scripts were
+            // blocked in the browser on every page. Verified with a headless
+            // Chromium run that reports zero CSP violations.
             value: [
               `default-src 'self'`,
-              `script-src 'self' 'unsafe-eval' 'unsafe-inline' *.vercel-insights.com *.algolia.net`,
+              `script-src 'self' 'unsafe-eval' 'unsafe-inline' va.vercel-scripts.com *.vercel-insights.com`,
               `style-src 'self' 'unsafe-inline'`,
               `img-src 'self' blob: data: https:`,
               `font-src 'self' data:`,
-              `connect-src 'self' *.algolia.net *.algolianet.com *.vercel-insights.com *.sentry.io`,
+              `connect-src 'self' va.vercel-scripts.com *.vercel-insights.com`,
               `frame-src 'none'`,
               `object-src 'none'`,
               `base-uri 'self'`,

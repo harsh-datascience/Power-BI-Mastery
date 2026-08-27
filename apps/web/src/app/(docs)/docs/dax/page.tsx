@@ -52,7 +52,8 @@ export default function DaxDocsIndexPage() {
             { label: 'Advanced DAX Patterns', href: '/learn/paths' },
             { label: 'DAX Playground', href: '/playground' },
           ].map((l) => (
-            <Link key={l.href} href={l.href}
+            // Two quick links point at /learn/paths, so href is not unique.
+            <Link key={l.label} href={l.href}
               className="flex items-center gap-2 rounded-md px-3 py-2.5 text-sm text-muted-foreground border border-border hover:text-foreground hover:bg-muted transition-colors">
               <ArrowRight className="h-3.5 w-3.5" />{l.label}
             </Link>

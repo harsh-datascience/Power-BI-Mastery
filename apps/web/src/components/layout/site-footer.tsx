@@ -102,7 +102,10 @@ export function SiteFooter() {
               <h3 className="text-sm font-semibold text-foreground">{section.title}</h3>
               <ul className="flex flex-col gap-2">
                 {section.links.map((link) => (
-                  <li key={link.href}>
+                  // Several links in a section intentionally point at the same
+                  // href (e.g. four Learn links go to /learn/paths), so the
+                  // href is not unique. The label is.
+                  <li key={link.label}>
                     <Link
                       href={link.href}
                       className="text-sm text-muted-foreground hover:text-foreground transition-colors"

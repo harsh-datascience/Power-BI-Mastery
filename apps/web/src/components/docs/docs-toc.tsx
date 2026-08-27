@@ -19,8 +19,13 @@ export function DocsToc() {
       document.querySelectorAll('main h2, main h3')
     ) as HTMLHeadingElement[]
 
+    // Only headings with an id can be linked. Hand-written pages (/docs,
+    // /docs/dax) render h2s without ids, which produced several TOC entries
+    // keyed on "" (a duplicate-key warning) that all pointed at bare "#".
+    const linkable = els.filter((el) => el.id)
+
     setHeadings(
-      els.map((el) => ({
+      linkable.map((el) => ({
         id: el.id,
         text: el.textContent ?? '',
         level: Number(el.tagName[1]),
@@ -35,7 +40,7 @@ export function DocsToc() {
       { rootMargin: '-80px 0px -60% 0px' }
     )
 
-    els.forEach((el) => observer.observe(el))
+    linkable.forEach((el) => observer.observe(el))
     return () => observer.disconnect()
   }, [])
 

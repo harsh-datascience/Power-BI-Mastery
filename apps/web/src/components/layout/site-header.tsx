@@ -101,7 +101,10 @@ export function SiteHeader() {
                   <div className="absolute top-full left-0 mt-1 w-64 rounded-xl border border-border bg-popover p-2 shadow-card-hover animate-fade-in">
                     {item.children.map((child) => (
                       <Link
-                        key={child.href}
+                        // Dropdown entries deliberately share hrefs (all four
+                        // Learn entries point at /learn/paths), so key on the
+                        // label, which is unique within a menu.
+                        key={child.label}
                         href={child.href}
                         className="flex flex-col gap-0.5 rounded-lg px-3 py-2.5 hover:bg-muted transition-colors"
                         onClick={() => setOpenDropdown(null)}
