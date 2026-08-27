@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Power BI Mastery">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a2651"/>
+      <stop offset="100%" stop-color="#0d1530"/>
+    </linearGradient>
+    <linearGradient id="bolt" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0c050"/>
+      <stop offset="100%" stop-color="#e59010"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <!-- Lightning bolt, matching the lucide "Zap" mark used in the header -->
+  <path d="M300 56 148 296h84l-20 160 152-240h-84z" fill="url(#bolt)"/>
+</svg>
